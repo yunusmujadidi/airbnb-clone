@@ -3,6 +3,7 @@ import React from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { format } from "path";
+import { FormMessage } from "../ui/form";
 
 interface RegisterInputProps {
   id: string;
@@ -56,6 +57,9 @@ const RegisterInput = ({
       >
         {label}
       </label>
+      {errors[id] && (
+        <label className="text-red-500">{errors[id].message}</label>
+      )}
     </div>
   );
 };

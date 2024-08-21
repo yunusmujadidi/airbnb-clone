@@ -103,6 +103,7 @@ const Modal = ({
                   />
                 )}
               </div>
+              {footer}
             </div>
           </div>
         </div>

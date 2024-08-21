@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
+import { Google } from "./icon";
 
 interface ButtonProps {
   label: string;
@@ -8,6 +9,7 @@ interface ButtonProps {
   outline?: boolean;
   small?: boolean;
   Icon?: LucideIcon;
+  google?: boolean;
 }
 const Button = ({
   label,
@@ -16,6 +18,7 @@ const Button = ({
   outline,
   small,
   Icon,
+  google,
 }: ButtonProps) => {
   return (
     <button
@@ -31,7 +34,12 @@ const Button = ({
           : "text-md py-3 font-semibold border-2"
       )}
     >
-      {Icon && <Icon size={24} className="absolute left-4 top-3" />}
+      {Icon && <Icon size={24} className="absolute left-5 top-3 " />}
+      {google && (
+        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+          <Google />
+        </div>
+      )}
       {label}
     </button>
   );

@@ -10,7 +10,8 @@ import Modal from "./modal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Heading from "../heading";
 import RegisterInput from "./registerinput";
-import { error } from "console";
+import toast, { Toaster } from "react-hot-toast";
+import Button from "../button";
 
 export const formSchema = z.object({
   email: z.string().email(),
@@ -34,7 +35,9 @@ const RegisterModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
+      const response = await axios.post("/api/auth/register", values);
     } catch (error) {
+      toast.error("An error occurred. Please try again later.");
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -71,16 +74,43 @@ const RegisterModal = () => {
       />
     </div>
   );
+  const footerContent = (
+    <div className="flex flex-col gap-4 mt-3">
+      <hr />
+      <Button outline label="Continue with Google" google onClick={() => {}} />
+      <Button
+        outline
+        label="Continue with Github"
+        Icon={Github}
+        onClick={() => {}}
+      />
+      <div className="text-neutral-500 text-center mt-4 font-light">
+        <div className="justify-center flex flex-row items-center gap-2">
+          <div>Already have an account?</div>
+          <div
+            onClick={registerModal.onClose}
+            className="text-neutral-800 cursor-pointer hover:underline"
+          >
+            Log in
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <Modal
-      disabled={isLoading}
-      isOpen={registerModal.isOpen}
-      title="Register"
-      actionLabel="Continue"
-      onClose={registerModal.onClose}
-      onSubmit={form.handleSubmit(onSubmit)}
-      body={bodyContent}
-    />
+    <>
+      <Modal
+        disabled={isLoading}
+        isOpen={registerModal.isOpen}
+        title="Register"
+        actionLabel="Continue"
+        onClose={registerModal.onClose}
+        onSubmit={form.handleSubmit(onSubmit)}
+        body={bodyContent}
+        footer={footerContent}
+      />
+    </>
   );
 };
 
