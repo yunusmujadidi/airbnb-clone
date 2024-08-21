@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/navbar/navbar";
 import Modal from "@/components/modals/modal";
+import RegisterModal from "@/components/modals/registermodal";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body className={cn(font.className, "h-full min-h-screen")}>
         <Navbar />
         <main>{children}</main>
-        <Modal actionLabel="Hello" isOpen title="Login" />
+        <RegisterModal />
       </body>
     </html>
   );
