@@ -4,6 +4,7 @@ import Logo from "./logo";
 import Search from "./search";
 import UserMenu from "./usermenu";
 import { User } from "@prisma/client";
+import Category from "../category";
 
 interface NavbarProps {
   currentUser?: User | null;
@@ -20,6 +21,7 @@ const Navbar = async ({ currentUser }: NavbarProps) => {
           </div>
         </Container>
       </div>
+      <Category />
     </div>
   );
 };
