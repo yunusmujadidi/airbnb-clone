@@ -2,7 +2,7 @@
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { formSchema } from "@/components/modals/registermodal";
-import prisma from "./prisma";
+import prisma from "../prisma";
 
 export const submitRegister = async (values: z.infer<typeof formSchema>) => {
   try {

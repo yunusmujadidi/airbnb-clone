@@ -11,6 +11,7 @@ import RegisterInput from "./registerinput";
 import toast from "react-hot-toast";
 import Button from "../button";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export const formSchema = z.object({
   email: z.string().email(),
@@ -20,6 +21,8 @@ export const formSchema = z.object({
 const LoginModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const loginModal = useLoginModal();
+
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -42,6 +45,7 @@ const LoginModal = () => {
         toast.error(`Login failed: ${result.error}`);
       } else if (result?.ok) {
         loginModal.onClose();
+        router.refresh();
         toast.success("Logged in successfully");
       } else {
         toast.error("An unexpected error occurred");

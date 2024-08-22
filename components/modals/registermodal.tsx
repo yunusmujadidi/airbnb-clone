@@ -12,7 +12,7 @@ import Heading from "../heading";
 import RegisterInput from "./registerinput";
 import toast, { Toaster } from "react-hot-toast";
 import Button from "../button";
-import { submitRegister } from "@/lib/registeraction";
+import { submitRegister } from "@/lib/actions/registeraction";
 
 export const formSchema = z.object({
   email: z.string().email(),
