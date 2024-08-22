@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import { Github } from "lucide-react";
 import { Google } from "../icon";
 import { z } from "zod";
@@ -13,6 +12,7 @@ import RegisterInput from "./registerinput";
 import toast, { Toaster } from "react-hot-toast";
 import Button from "../button";
 import { submitRegister } from "@/lib/actions/registeraction";
+import { signIn } from "next-auth/react";
 
 export const formSchema = z.object({
   email: z.string().email(),
@@ -85,12 +85,21 @@ const RegisterModal = () => {
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <Button outline label="Continue with Google" google onClick={() => {}} />
+      <Button
+        outline
+        label="Continue with Google"
+        google
+        onClick={() => {
+          signIn("google");
+        }}
+      />
       <Button
         outline
         label="Continue with Github"
         Icon={Github}
-        onClick={() => {}}
+        onClick={() => {
+          signIn("github");
+        }}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
