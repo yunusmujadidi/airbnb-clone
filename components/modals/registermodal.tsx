@@ -12,6 +12,7 @@ import Heading from "../heading";
 import RegisterInput from "./registerinput";
 import toast, { Toaster } from "react-hot-toast";
 import Button from "../button";
+import { submitRegister } from "@/lib/registeraction";
 
 export const formSchema = z.object({
   email: z.string().email(),
@@ -35,7 +36,14 @@ const RegisterModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
-      const response = await axios.post("/api/auth/register", values);
+      const response = await submitRegister(values);
+
+      if (response?.success) {
+        toast.success("Account created successfully!");
+        registerModal.onClose();
+      } else {
+        toast.error("An error occurred. Please try again later.");
+      }
     } catch (error) {
       toast.error("An error occurred. Please try again later.");
       console.log(error);
