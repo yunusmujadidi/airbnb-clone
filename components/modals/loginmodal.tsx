@@ -3,7 +3,7 @@ import { Github } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Modal from "./modal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import Heading from "../heading";
@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import Button from "../button";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import RegisterModal from "./registermodal";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 export const formSchema = z.object({
   email: z.string().email(),
@@ -21,6 +23,7 @@ export const formSchema = z.object({
 const LoginModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
 
   const router = useRouter();
 
@@ -57,6 +60,11 @@ const LoginModal = () => {
       setIsLoading(false);
     }
   };
+
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -101,12 +109,12 @@ const LoginModal = () => {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
-          <div>Already have an account?</div>
+          <div>First time using Airbnb?</div>
           <div
-            onClick={loginModal.onClose}
+            onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Log in
+            Create an account
           </div>
         </div>
       </div>

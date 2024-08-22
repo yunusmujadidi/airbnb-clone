@@ -4,7 +4,7 @@ import { Google } from "../icon";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Modal from "./modal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Heading from "../heading";
@@ -13,6 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Button from "../button";
 import { submitRegister } from "@/lib/actions/registeraction";
 import { signIn } from "next-auth/react";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 export const formSchema = z.object({
   email: z.string().email(),
@@ -23,6 +24,7 @@ export const formSchema = z.object({
 const RegisterModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -51,6 +53,11 @@ const RegisterModal = () => {
       setIsLoading(false);
     }
   };
+
+  const toggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [registerModal, loginModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -105,7 +112,7 @@ const RegisterModal = () => {
         <div className="justify-center flex flex-row items-center gap-2">
           <div>Already have an account?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             Log in
