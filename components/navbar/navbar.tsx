@@ -6,7 +6,7 @@ import UserMenu from "./usermenu";
 import { User } from "@prisma/client";
 
 interface NavbarProps {
-  currentUser: User | null;
+  currentUser?: User | null;
 }
 const Navbar = async ({ currentUser }: NavbarProps) => {
   return (
@@ -16,7 +16,7 @@ const Navbar = async ({ currentUser }: NavbarProps) => {
           <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
             <Logo />
             <Search />
-            <UserMenu />
+            <UserMenu currentUser={currentUser} />
           </div>
         </Container>
       </div>

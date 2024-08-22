@@ -6,8 +6,15 @@ import Avatar from "../avatar";
 import MenuItem from "./menuitem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import { User } from "@prisma/client";
+import { signOut } from "next-auth/react";
+import toast from "react-hot-toast";
 
-const UserMenu = () => {
+interface UserMenuProps {
+  currentUser?: User | null;
+}
+
+const UserMenu = ({ currentUser }: UserMenuProps) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +33,12 @@ const UserMenu = () => {
     setIsOpen(false);
   }, [loginModal]);
 
+  const handleLogout = useCallback(() => {
+    signOut();
+    setIsOpen(false);
+    toast.success("Logged out successfully");
+  }, []);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
@@ -42,11 +55,26 @@ const UserMenu = () => {
           </div>
         </div>
       </div>
+
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40wv] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <>
-            <MenuItem onClick={handleLoginModal} label="Login" />
-            <MenuItem onClick={handleRegisterModal} label="Sign Up" />
+            {currentUser ? (
+              <>
+                <MenuItem onClick={() => {}} label="My trips" />
+                <MenuItem onClick={() => {}} label="My favorites" />
+                <MenuItem onClick={() => {}} label="My reservation" />
+                <MenuItem onClick={() => {}} label="My properties" />
+                <MenuItem onClick={() => {}} label="Airbnb my home" />
+                <hr />
+                <MenuItem onClick={handleLogout} label="Logout" />
+              </>
+            ) : (
+              <div>
+                <MenuItem onClick={handleLoginModal} label="Login" />
+                <MenuItem onClick={handleRegisterModal} label="Sign Up" />
+              </div>
+            )}
           </>
         </div>
       )}
