@@ -5,9 +5,11 @@ import React, { useCallback, useState } from "react";
 import Avatar from "../avatar";
 import MenuItem from "./menuitem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 const UserMenu = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleMenu = useCallback(() => {
@@ -18,6 +20,11 @@ const UserMenu = () => {
     registerModal.onOpen();
     setIsOpen(false);
   }, [registerModal]);
+
+  const handleLoginModal = useCallback(() => {
+    loginModal.onOpen();
+    setIsOpen(false);
+  }, [loginModal]);
 
   return (
     <div className="relative">
@@ -38,7 +45,7 @@ const UserMenu = () => {
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40wv] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <>
-            <MenuItem onClick={() => {}} label="Login" />
+            <MenuItem onClick={handleLoginModal} label="Login" />
             <MenuItem onClick={handleRegisterModal} label="Sign Up" />
           </>
         </div>

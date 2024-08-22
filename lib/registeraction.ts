@@ -1,5 +1,5 @@
 "use server";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { formSchema } from "@/components/modals/registermodal";
 import prisma from "./prisma";
