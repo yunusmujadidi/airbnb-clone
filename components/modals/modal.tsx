@@ -10,8 +10,8 @@ interface ModalProps {
   onClose: () => void;
   onSubmit: () => void;
   title?: string;
-  body?: string;
-  footer?: string;
+  body?: React.ReactNode;
+  footer?: React.ReactNode;
   actionLabel?: string;
   disabled?: boolean;
   secondaryAction?: () => void;
@@ -91,7 +91,7 @@ const Modal = ({
               <div className="flex flex-row items-center gap-4 w-full">
                 <Button
                   disabled={disabled}
-                  label={actionLabel}
+                  label={actionLabel || "Continue"}
                   onClick={handleSubmit}
                 />
                 {secondaryAction && secondaryLabel && (

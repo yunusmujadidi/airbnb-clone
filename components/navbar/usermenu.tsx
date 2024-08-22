@@ -14,6 +14,11 @@ const UserMenu = () => {
     setIsOpen((value) => !value);
   }, []);
 
+  const handleRegisterModal = useCallback(() => {
+    registerModal.onOpen();
+    setIsOpen(false);
+  }, [registerModal]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
@@ -34,7 +39,7 @@ const UserMenu = () => {
         <div className="absolute rounded-xl shadow-md w-[40wv] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <>
             <MenuItem onClick={() => {}} label="Login" />
-            <MenuItem onClick={registerModal.onOpen} label="Sign Up" />
+            <MenuItem onClick={handleRegisterModal} label="Sign Up" />
           </>
         </div>
       )}
