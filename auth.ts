@@ -21,11 +21,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           throw new Error("Please enter your email and password");
         }
 
+        console.log("Attempting to find user with email:", credentials.email);
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email as string },
         });
 
+        console.log("User found:", user);
+
         if (!user || !user?.hashedPassword) {
+          console.log("No user found or no hashed password");
           throw new Error("No user found");
         }
 
@@ -33,6 +38,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           credentials.password as string,
           user.hashedPassword ?? ""
         );
+
+        console.log("Password correct:", isCorrectPassword);
+
         if (!isCorrectPassword) {
           throw new Error("Incorrect password");
         }
@@ -41,6 +49,40 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      if (account?.provider === "github" || account?.provider === "google") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email as string },
+        });
+        if (existingUser) {
+          // Check if this OAuth account is already linked to the user
+          const linkedAccount = await prisma.account.findFirst({
+            where: {
+              userId: existingUser.id,
+              provider: account?.provider as string,
+            },
+          });
+          if (!linkedAccount) {
+            // Link the new OAuth account to the existing user
+            await prisma.account.create({
+              data: {
+                userId: existingUser.id,
+                type: account?.type as string,
+                provider: account?.provider as string,
+                providerAccountId: account?.providerAccountId as string,
+                access_token: account?.access_token,
+                token_type: account?.token_type,
+                scope: account?.scope,
+              },
+            });
+          }
+          return true; // Allow sign in
+        }
+      }
+      return true; // Allow sign in for other cases
+    },
+  },
   pages: {
     signIn: "/",
   },
