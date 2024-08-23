@@ -9,15 +9,18 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
+import useListingModal from "@/app/hooks/useListingModal";
 
 interface UserMenuProps {
   currentUser?: User | null;
 }
 
 const UserMenu = ({ currentUser }: UserMenuProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const [isOpen, setIsOpen] = useState(false);
+  const listingModal = useListingModal();
 
   const handleMenu = useCallback(() => {
     setIsOpen((value) => !value);
@@ -33,6 +36,15 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
     setIsOpen(false);
   }, [loginModal]);
 
+  const handleListingModal = useCallback(() => {
+    if (!currentUser) {
+      toast.error("You need to login first");
+      return loginModal.onOpen();
+    }
+    setIsOpen(false);
+    listingModal.onOpen();
+  }, [currentUser, loginModal, listingModal]);
+
   const handleLogout = useCallback(() => {
     signOut();
     setIsOpen(false);
@@ -42,7 +54,10 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
-        <div className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+        <div
+          onClick={handleListingModal}
+          className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+        >
           Airbnb your home
         </div>
 
@@ -66,7 +81,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
                 <MenuItem onClick={() => {}} label="My favorites" />
                 <MenuItem onClick={() => {}} label="My reservation" />
                 <MenuItem onClick={() => {}} label="My properties" />
-                <MenuItem onClick={() => {}} label="Airbnb my home" />
+                <MenuItem onClick={handleListingModal} label="Airbnb my home" />
                 <hr />
                 <MenuItem onClick={handleLogout} label="Logout" />
               </>

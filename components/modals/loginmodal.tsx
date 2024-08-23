@@ -12,7 +12,6 @@ import toast from "react-hot-toast";
 import Button from "../button";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import RegisterModal from "./registermodal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 export const formSchema = z.object({
