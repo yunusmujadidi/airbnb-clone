@@ -9,7 +9,10 @@ import useListingModal from "@/app/hooks/useListingModal";
 import Heading from "../heading";
 import { categories } from "../category";
 import CategoryInput from "../categoryinput";
-import CountrySelect from "../countryselect";
+import CountrySelect, { CountrySelectValue } from "../countryselect";
+
+import dynamic from "next/dynamic";
+import Counter from "../counter";
 
 export const formSchema = z.object({
   email: z.string().email(),
@@ -72,7 +75,8 @@ const ListingModal = () => {
 
   // watch value from custom components to update the form
   const category = form.watch("category");
-  const location = form.watch("location");
+  const location: any = form.watch("location");
+  const guestCount = form.watch("guestCount");
 
   // set custom value to the form
   const setCustomValue = (id: any, value: any) => {
@@ -93,6 +97,11 @@ const ListingModal = () => {
       setIsLoading(false);
     }
   };
+
+  const Map = dynamic(() => import("../map"), {
+    ssr: false,
+  });
+  const semarangCenter: [number, number] = [-6.9667, 110.4167];
 
   const bodyContent = {
     [STEPS.CATEGORY]: (
@@ -125,6 +134,7 @@ const ListingModal = () => {
           value={location}
           onChange={(value) => setCustomValue("location", value)}
         />
+        <Map center={location?.latling || semarangCenter} />
       </div>
     ),
     [STEPS.INFO]: <div>info</div>,
