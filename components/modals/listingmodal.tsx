@@ -77,6 +77,8 @@ const ListingModal = () => {
   const category = form.watch("category");
   const location: any = form.watch("location");
   const guestCount = form.watch("guestCount");
+  const bathroomCount = form.watch("bathroomCount");
+  const roomCount = form.watch("roomCount");
 
   // set custom value to the form
   const setCustomValue = (id: any, value: any) => {
@@ -137,7 +139,32 @@ const ListingModal = () => {
         <Map center={location?.latling || semarangCenter} />
       </div>
     ),
-    [STEPS.INFO]: <div>info</div>,
+    [STEPS.INFO]: (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Share some basic about your place"
+          subtitle="What amenities do you have?"
+        />
+        <Counter
+          title="Guests"
+          subtitle="How many guests?"
+          value={guestCount}
+          onChange={(value) => setCustomValue("guestCount", value)}
+        />
+        <Counter
+          title="Rooms"
+          subtitle="How many rooms do tou have?"
+          value={roomCount}
+          onChange={(value) => setCustomValue("roomCount", value)}
+        />
+        <Counter
+          title="Bathrooms"
+          subtitle="How many bathrooms do tou have?"
+          value={bathroomCount}
+          onChange={(value) => setCustomValue("bathroomCount", value)}
+        />
+      </div>
+    ),
     [STEPS.IMAGES]: <div>images</div>,
     [STEPS.DESCRIPTION]: <div>description</div>,
     [STEPS.PRICE]: <div>price</div>,
