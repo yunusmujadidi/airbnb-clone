@@ -13,6 +13,7 @@ import CountrySelect, { CountrySelectValue } from "../countryselect";
 
 import dynamic from "next/dynamic";
 import Counter from "../counter";
+import ImageUpload from "../imageupload";
 
 export const formSchema = z.object({
   email: z.string().email(),
@@ -79,6 +80,7 @@ const ListingModal = () => {
   const guestCount = form.watch("guestCount");
   const bathroomCount = form.watch("bathroomCount");
   const roomCount = form.watch("roomCount");
+  const imageSrc = form.watch("imageSrc");
 
   // set custom value to the form
   const setCustomValue = (id: any, value: any) => {
@@ -165,7 +167,18 @@ const ListingModal = () => {
         />
       </div>
     ),
-    [STEPS.IMAGES]: <div>images</div>,
+    [STEPS.IMAGES]: (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Add a photo to your place"
+          subtitle="Show guest what your place looks like!"
+        />
+        <ImageUpload
+          value={imageSrc}
+          onChange={(value) => setCustomValue("imageSrc", value)}
+        />
+      </div>
+    ),
     [STEPS.DESCRIPTION]: <div>description</div>,
     [STEPS.PRICE]: <div>price</div>,
   }[step];
