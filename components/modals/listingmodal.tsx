@@ -1,7 +1,7 @@
 "use client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValue, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMemo, useState } from "react";
 import Modal from "./modal";
 import toast from "react-hot-toast";
@@ -9,15 +9,25 @@ import useListingModal from "@/app/hooks/useListingModal";
 import Heading from "../heading";
 import { categories } from "../category";
 import CategoryInput from "../categoryinput";
-import CountrySelect, { CountrySelectValue } from "../countryselect";
+import CountrySelect from "../countryselect";
 
 import dynamic from "next/dynamic";
 import Counter from "../counter";
 import ImageUpload from "../imageupload";
+import RegisterInput from "./registerinput";
+import { submitListing } from "@/lib/actions/registeraction";
+import { useRouter } from "next/navigation";
 
-export const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+export const listingSchema = z.object({
+  category: z.string(),
+  location: z.string(),
+  guestCount: z.number(),
+  roomCount: z.number(),
+  bathroomCount: z.number(),
+  imageSrc: z.string(),
+  price: z.number(),
+  title: z.string(),
+  description: z.string(),
 });
 
 enum STEPS {
@@ -34,6 +44,7 @@ const ListingModal = () => {
   const [step, setStep] = useState<STEPS>(STEPS.CATEGORY);
 
   const listingModal = useListingModal();
+  const router = useRouter();
 
   const back = () => {
     setStep((value) => value - 1);
@@ -60,7 +71,7 @@ const ListingModal = () => {
   }, [step]);
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(listingSchema),
     defaultValues: {
       category: "",
       location: null,
@@ -91,9 +102,23 @@ const ListingModal = () => {
     });
   };
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: any) => {
     try {
+      if (step !== STEPS.PRICE) {
+        return next();
+      }
+
       setIsLoading(true);
+      console.log(values);
+      const response = await submitListing(values);
+      if (!response) {
+        toast.error("An unexpected error occurred. Please try again later");
+      }
+      toast.success("Listing created successfully");
+      router.refresh();
+      form.reset();
+      setStep(STEPS.CATEGORY);
+      listingModal.onClose();
     } catch (error) {
       console.error(error);
       toast.error("An unexpected error occurred");
@@ -179,11 +204,52 @@ const ListingModal = () => {
         />
       </div>
     ),
-    [STEPS.DESCRIPTION]: <div>description</div>,
-    [STEPS.PRICE]: <div>price</div>,
+    [STEPS.DESCRIPTION]: (
+      <div className="flex felx-col gap-8">
+        <Heading
+          title="How would you describe your place?"
+          subtitle="Short and sweet works best!"
+        />
+        <RegisterInput
+          formatPrice
+          id="title"
+          label="Title"
+          disabled={isLoading}
+          register={form.register}
+          errors={form.formState.errors}
+          required
+        />
+        <hr />
+        <RegisterInput
+          formatPrice
+          id="description"
+          label="Description"
+          disabled={isLoading}
+          register={form.register}
+          errors={form.formState.errors}
+          required
+        />
+      </div>
+    ),
+    [STEPS.PRICE]: (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Now, set the price"
+          subtitle="How much do you want to charge per night?"
+        />
+        <RegisterInput
+          formatPrice
+          id="price"
+          label="Price"
+          type="number"
+          disabled={isLoading}
+          register={form.register}
+          errors={form.formState.errors}
+          required
+        />
+      </div>
+    ),
   }[step];
-
-  const footerContent = <div></div>;
 
   return (
     <>
@@ -193,9 +259,8 @@ const ListingModal = () => {
         title="Listing your property"
         actionLabel={actionLabel}
         onClose={listingModal.onClose}
-        onSubmit={step === STEPS.PRICE ? () => onSubmit : next}
+        onSubmit={form.handleSubmit(onSubmit)}
         body={bodyContent}
-        footer={footerContent}
         secondaryLabel={secondaryLabel}
         secondaryAction={step === STEPS.CATEGORY ? undefined : back}
       />
