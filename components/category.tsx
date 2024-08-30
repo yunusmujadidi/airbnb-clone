@@ -1,98 +1,89 @@
 "use client";
 import React from "react";
 import Container from "./container";
-import { TbBeach } from "react-icons/tb";
 import {
-  GiBoatFishing,
-  GiCastle,
-  GiForestCamp,
-  GiWindmill,
-  GiIsland,
-  GiCaveEntrance,
-  GiCactus,
-  GiBarn,
-} from "react-icons/gi";
-import { MdOutlineBedroomParent, MdOutlineVilla } from "react-icons/md";
-import { FaRegSun, FaSkiing } from "react-icons/fa";
-import { BsSnow } from "react-icons/bs";
-import { IoDiamond } from "react-icons/io5";
+  Sun,
+  Wind,
+  Building,
+  Bed,
+  Palmtree,
+  Castle,
+  Tent,
+  Snowflake,
+  Mountain,
+  Warehouse,
+  Diamond,
+  Shell,
+} from "lucide-react";
 import CategoryBox from "./categorybox";
 import { usePathname, useSearchParams } from "next/navigation";
 
 export const categories = [
   {
     label: "Amazing View",
-    icon: FaRegSun,
+    icon: Sun,
     description: "This property has an amazing view!",
   },
   {
     label: "Beach",
-    icon: TbBeach,
+    icon: Shell,
     description: "This property is close to the beach!",
   },
   {
     label: "Windmills",
-    icon: GiWindmill,
+    icon: Wind,
     description: "This property has windmills!",
   },
   {
     label: "Modern",
-    icon: MdOutlineVilla,
+    icon: Building,
     description: "This property is modern!",
   },
   {
     label: "Rooms",
-    icon: MdOutlineBedroomParent,
+    icon: Bed,
     description: "This property has many rooms!",
   },
   {
     label: "Island",
-    icon: GiIsland,
+    icon: Palmtree,
     description: "This property is on an island!",
   },
-  {
-    label: "Lake",
-    icon: GiBoatFishing,
-    description: "This property is close to a lake!",
-  },
+
   {
     label: "Skiing",
-    icon: FaSkiing,
+    icon: Mountain,
     description: "This property is close to a ski resort!",
   },
   {
     label: "Castles",
-    icon: GiCastle,
+    icon: Castle,
     description: "This property is a castle!",
   },
   {
     label: "Camping",
-    icon: GiForestCamp,
+    icon: Tent,
     description: "This property is close to a camping site!",
   },
   {
     label: "Artic",
-    icon: BsSnow,
+    icon: Snowflake,
     description: "This property is in the artic!",
   },
   {
     label: "Cave",
-    icon: GiCaveEntrance,
+    icon: Mountain,
     description: "This property is in a cave!",
   },
-  {
-    label: "Desert",
-    icon: GiCactus,
-    description: "This property is in the desert!",
-  },
+
   {
     label: "Barns",
-    icon: GiBarn,
+    icon: Warehouse,
     description: "This property is a barn!",
   },
   {
     label: "Lux",
-    icon: IoDiamond,
+    icon: Diamond,
     description: "This property is luxurious!",
   },
 ];

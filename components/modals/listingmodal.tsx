@@ -17,6 +17,7 @@ import ImageUpload from "../imageupload";
 import RegisterInput from "./registerinput";
 import { submitListing } from "@/lib/actions/registeraction";
 import { useRouter } from "next/navigation";
+import Button from "../button";
 
 export const listingSchema = z.object({
   category: z.string(),
@@ -25,7 +26,7 @@ export const listingSchema = z.object({
   roomCount: z.number(),
   bathroomCount: z.number(),
   imageSrc: z.string(),
-  price: z.number(),
+  price: z.string(),
   title: z.string(),
   description: z.string(),
 });
@@ -38,6 +39,8 @@ enum STEPS {
   DESCRIPTION = 4,
   PRICE = 5,
 }
+
+const semarangCenter: [number, number] = [-6.9667, 110.4167];
 
 const ListingModal = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -70,11 +73,18 @@ const ListingModal = () => {
     return "Back";
   }, [step]);
 
-  const form = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm({
     resolver: zodResolver(listingSchema),
     defaultValues: {
       category: "",
-      location: null,
+      location: semarangCenter,
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
@@ -86,28 +96,27 @@ const ListingModal = () => {
   });
 
   // watch value from custom components to update the form
-  const category = form.watch("category");
-  const location: any = form.watch("location");
-  const guestCount = form.watch("guestCount");
-  const bathroomCount = form.watch("bathroomCount");
-  const roomCount = form.watch("roomCount");
-  const imageSrc = form.watch("imageSrc");
+  const category = watch("category");
+  const location: any = watch("location");
+  const guestCount = watch("guestCount");
+  const bathroomCount = watch("bathroomCount");
+  const roomCount = watch("roomCount");
+  const imageSrc = watch("imageSrc");
 
   // set custom value to the form
   const setCustomValue = (id: any, value: any) => {
-    form.setValue(id, value, {
+    setValue(id, value, {
       shouldDirty: true,
       shouldTouch: true,
       shouldValidate: true,
     });
   };
 
-  const onSubmit = async (values: any) => {
+  async function onSubmit(values: any) {
+    if (step !== STEPS.PRICE) {
+      return next();
+    }
     try {
-      if (step !== STEPS.PRICE) {
-        return next();
-      }
-
       setIsLoading(true);
       console.log(values);
       const response = await submitListing(values);
@@ -116,7 +125,7 @@ const ListingModal = () => {
       }
       toast.success("Listing created successfully");
       router.refresh();
-      form.reset();
+      reset();
       setStep(STEPS.CATEGORY);
       listingModal.onClose();
     } catch (error) {
@@ -125,12 +134,11 @@ const ListingModal = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   const Map = dynamic(() => import("../map"), {
     ssr: false,
   });
-  const semarangCenter: [number, number] = [-6.9667, 110.4167];
 
   const bodyContent = {
     [STEPS.CATEGORY]: (
@@ -205,28 +213,26 @@ const ListingModal = () => {
       </div>
     ),
     [STEPS.DESCRIPTION]: (
-      <div className="flex felx-col gap-8">
+      <div className="flex flex-col gap-8">
         <Heading
           title="How would you describe your place?"
           subtitle="Short and sweet works best!"
         />
         <RegisterInput
-          formatPrice
           id="title"
           label="Title"
           disabled={isLoading}
-          register={form.register}
-          errors={form.formState.errors}
+          register={register}
+          errors={errors}
           required
         />
         <hr />
         <RegisterInput
-          formatPrice
           id="description"
           label="Description"
           disabled={isLoading}
-          register={form.register}
-          errors={form.formState.errors}
+          register={register}
+          errors={errors}
           required
         />
       </div>
@@ -243,9 +249,14 @@ const ListingModal = () => {
           label="Price"
           type="number"
           disabled={isLoading}
-          register={form.register}
-          errors={form.formState.errors}
+          register={register}
+          errors={errors}
           required
+        />
+        <Button
+          onClick={handleSubmit(onSubmit)}
+          disabled={isLoading}
+          label="Submit"
         />
       </div>
     ),
@@ -259,7 +270,7 @@ const ListingModal = () => {
         title="Listing your property"
         actionLabel={actionLabel}
         onClose={listingModal.onClose}
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={step === STEPS.PRICE ? handleSubmit(onSubmit) : next}
         body={bodyContent}
         secondaryLabel={secondaryLabel}
         secondaryAction={step === STEPS.CATEGORY ? undefined : back}

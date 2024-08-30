@@ -1,10 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { IconType } from "react-icons";
-
+import { LucideIcon } from "lucide-react";
 interface CategoryInputProps {
-  icon: IconType;
+  icon: LucideIcon;
   label: string;
   selected?: boolean;
   onClick: (value: string) => void;
