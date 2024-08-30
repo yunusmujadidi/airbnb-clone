@@ -1,9 +1,6 @@
 import { DollarSign } from "lucide-react";
 import React from "react";
-import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import { format } from "path";
-import { FormMessage } from "../ui/form";
 
 interface RegisterInputProps {
   id: string;
