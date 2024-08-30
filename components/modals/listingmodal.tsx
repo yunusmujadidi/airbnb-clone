@@ -10,25 +10,25 @@ import Heading from "../heading";
 import { categories } from "../category";
 import CategoryInput from "../categoryinput";
 import CountrySelect from "../countryselect";
-
 import dynamic from "next/dynamic";
 import Counter from "../counter";
 import ImageUpload from "../imageupload";
 import RegisterInput from "./registerinput";
 import { submitListing } from "@/lib/actions/registeraction";
 import { useRouter } from "next/navigation";
+
 import Button from "../button";
 
 export const listingSchema = z.object({
-  category: z.string(),
-  location: z.string(),
-  guestCount: z.number(),
-  roomCount: z.number(),
-  bathroomCount: z.number(),
-  imageSrc: z.string(),
-  price: z.string(),
-  title: z.string(),
-  description: z.string(),
+  category: z.string().min(1, "Category is required"),
+  location: z.any(),
+  guestCount: z.number().min(1),
+  roomCount: z.number().min(1),
+  bathroomCount: z.number().min(1),
+  imageSrc: z.string().min(1, "Image is required"),
+  price: z.coerce.number().min(1, "Price must be a positive number"),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
 });
 
 enum STEPS {
@@ -48,30 +48,6 @@ const ListingModal = () => {
 
   const listingModal = useListingModal();
   const router = useRouter();
-
-  const back = () => {
-    setStep((value) => value - 1);
-  };
-
-  const next = () => {
-    setStep((value) => value + 1);
-  };
-
-  const actionLabel = useMemo(() => {
-    if (step === STEPS.PRICE) {
-      return undefined;
-    }
-
-    return "Next";
-  }, [step]);
-
-  const secondaryLabel = useMemo(() => {
-    if (step === STEPS.CATEGORY) {
-      return undefined;
-    }
-
-    return "Back";
-  }, [step]);
 
   const {
     register,
@@ -96,6 +72,7 @@ const ListingModal = () => {
   });
 
   // watch value from custom components to update the form
+
   const category = watch("category");
   const location: any = watch("location");
   const guestCount = watch("guestCount");
@@ -112,33 +89,49 @@ const ListingModal = () => {
     });
   };
 
-  async function onSubmit(values: any) {
-    if (step !== STEPS.PRICE) {
-      return next();
-    }
+  const onSubmit = async (values: z.infer<typeof listingSchema>) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      console.log(values);
       const response = await submitListing(values);
-      if (!response) {
-        toast.error("An unexpected error occurred. Please try again later");
+      if (response.success) {
+        toast.success("Listing created successfully");
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        listingModal.onClose();
+      } else {
+        throw new Error("Failed to create listing");
       }
-      toast.success("Listing created successfully");
-      router.refresh();
-      reset();
-      setStep(STEPS.CATEGORY);
-      listingModal.onClose();
     } catch (error) {
-      console.error(error);
-      toast.error("An unexpected error occurred");
+      console.error("Error during listing submission:", error);
+      toast.error(
+        error instanceof Error ? error.message : "An unexpected error occurred"
+      );
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
-  const Map = dynamic(() => import("../map"), {
-    ssr: false,
-  });
+  const back = () => setStep((value) => value - 1);
+  const next = () => setStep((value) => value + 1);
+
+  const actionLabel = useMemo(
+    () => (step === STEPS.PRICE ? "Create" : "Next"),
+    [step]
+  );
+  const secondaryLabel = useMemo(
+    () => (step === STEPS.CATEGORY ? undefined : "Back"),
+    [step]
+  );
+
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("../map"), {
+        loading: () => <p>Loading...</p>,
+        ssr: false,
+      }),
+    [location]
+  );
 
   const bodyContent = {
     [STEPS.CATEGORY]: (
@@ -253,29 +246,22 @@ const ListingModal = () => {
           errors={errors}
           required
         />
-        <Button
-          onClick={handleSubmit(onSubmit)}
-          disabled={isLoading}
-          label="Submit"
-        />
       </div>
     ),
   }[step];
 
   return (
-    <>
-      <Modal
-        disabled={isLoading}
-        isOpen={listingModal.isOpen}
-        title="Listing your property"
-        actionLabel={actionLabel}
-        onClose={listingModal.onClose}
-        onSubmit={step === STEPS.PRICE ? handleSubmit(onSubmit) : next}
-        body={bodyContent}
-        secondaryLabel={secondaryLabel}
-        secondaryAction={step === STEPS.CATEGORY ? undefined : back}
-      />
-    </>
+    <Modal
+      disabled={isLoading}
+      isOpen={listingModal.isOpen}
+      title="Listing your property"
+      actionLabel={actionLabel}
+      onClose={listingModal.onClose}
+      onSubmit={step === STEPS.PRICE ? handleSubmit(onSubmit) : next}
+      body={bodyContent}
+      secondaryLabel={secondaryLabel}
+      secondaryAction={step === STEPS.CATEGORY ? undefined : back}
+    />
   );
 };
 

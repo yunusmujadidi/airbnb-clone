@@ -31,7 +31,7 @@ export const submitListing = async (values: z.infer<typeof listingSchema>) => {
     if (!user) {
       throw new Error("You must be logged in to create a listing");
     }
-
+    console.log("Submitting listing with values:", values);
     const listing = await prisma.listing.create({
       data: {
         bathroomCount: values.bathroomCount,
@@ -40,7 +40,7 @@ export const submitListing = async (values: z.infer<typeof listingSchema>) => {
         price: Number(values.price),
         title: values.title,
         category: values.category,
-        locationValue: values.location,
+        locationValue: JSON.stringify(values.location),
         guestCount: values.guestCount,
         imageSrc: values.imageSrc,
         userId: user.id,
