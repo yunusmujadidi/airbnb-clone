@@ -4,6 +4,7 @@ import { z } from "zod";
 import { formSchema } from "@/components/modals/registermodal";
 import prisma from "../prisma";
 import { listingSchema } from "@/components/modals/listingmodal";
+import { getCurrentUser } from "./getcurrentuser";
 
 export const submitRegister = async (values: z.infer<typeof formSchema>) => {
   try {
@@ -26,9 +27,23 @@ export const submitRegister = async (values: z.infer<typeof formSchema>) => {
 
 export const submitListing = async (values: z.infer<typeof listingSchema>) => {
   try {
+    const user = await getCurrentUser();
+    if (!user) {
+      throw new Error("You must be logged in to create a listing");
+    }
+
     const listing = await prisma.listing.create({
       data: {
-        ...values,
+        bathroomCount: values.bathroomCount,
+        roomCount: values.roomCount,
+        description: values.description,
+        price: values.price,
+        title: values.title,
+        category: values.category,
+        locationValue: values.location,
+        guestCount: values.guestCount,
+        imageSrc: values.imageSrc,
+        userId: user.id,
       },
     });
 
