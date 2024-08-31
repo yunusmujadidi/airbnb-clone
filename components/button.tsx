@@ -4,7 +4,7 @@ import { Google } from "./icon";
 
 interface ButtonProps {
   label: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;

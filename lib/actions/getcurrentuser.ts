@@ -15,7 +15,6 @@ export const getCurrentUser = async () => {
 
     return currentUser;
   } catch (error) {
-    console.log("Error getting current user: ", error);
-    throw new Error("An error occurred. Please try again later.");
+    return null;
   }
 };
