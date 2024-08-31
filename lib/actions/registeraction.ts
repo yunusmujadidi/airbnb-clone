@@ -40,7 +40,7 @@ export const submitListing = async (values: z.infer<typeof listingSchema>) => {
         price: Number(values.price),
         title: values.title,
         category: values.category,
-        locationValue: JSON.stringify(values.location),
+        locationValue: values.location.value,
         guestCount: values.guestCount,
         imageSrc: values.imageSrc,
         userId: user.id,

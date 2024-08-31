@@ -17,8 +17,6 @@ import RegisterInput from "./registerinput";
 import { submitListing } from "@/lib/actions/registeraction";
 import { useRouter } from "next/navigation";
 
-import Button from "../button";
-
 export const listingSchema = z.object({
   category: z.string().min(1, "Category is required"),
   location: z.any(),
