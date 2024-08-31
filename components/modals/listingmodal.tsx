@@ -135,12 +135,13 @@ const ListingModal = () => {
 
   const bodyContent = {
     [STEPS.CATEGORY]: (
-      <div className="flex flex-col gap-8">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         <Heading
-          title="Which of these best describe your place?"
+          title="Which of these best describes your place?"
           subtitle="Pick a category"
+          className="text-center mb-8"
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto pr-2">
           {categories.map((item) => (
             <div key={item.label} className="col-span-1">
               <CategoryInput
@@ -155,49 +156,56 @@ const ListingModal = () => {
       </div>
     ),
     [STEPS.LOCATION]: (
-      <div className="flex flex-col gap-8">
+      <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
         <Heading
           title="Where is your place located?"
-          subtitle="Help the quest find you!"
+          subtitle="Help guests find you!"
+          className="text-center"
         />
         <CountrySelect
           value={location}
           onChange={(value) => setCustomValue("location", value)}
         />
-        <Map center={location?.latling || semarangCenter} />
+        <div className="mt-6 h-[350px] w-full rounded-lg overflow-hidden">
+          <Map center={location?.latling || semarangCenter} />
+        </div>
       </div>
     ),
     [STEPS.INFO]: (
-      <div className="flex flex-col gap-8">
+      <div className="max-w-2xl mx-auto px-4 py-8 space-y-8">
         <Heading
-          title="Share some basic about your place"
+          title="Share some basics about your place"
           subtitle="What amenities do you have?"
+          className="text-center"
         />
-        <Counter
-          title="Guests"
-          subtitle="How many guests?"
-          value={guestCount}
-          onChange={(value) => setCustomValue("guestCount", value)}
-        />
-        <Counter
-          title="Rooms"
-          subtitle="How many rooms do tou have?"
-          value={roomCount}
-          onChange={(value) => setCustomValue("roomCount", value)}
-        />
-        <Counter
-          title="Bathrooms"
-          subtitle="How many bathrooms do tou have?"
-          value={bathroomCount}
-          onChange={(value) => setCustomValue("bathroomCount", value)}
-        />
+        <div className="space-y-6">
+          <Counter
+            title="Guests"
+            subtitle="How many guests can your place accommodate?"
+            value={guestCount}
+            onChange={(value) => setCustomValue("guestCount", value)}
+          />
+          <Counter
+            title="Rooms"
+            subtitle="How many rooms are available?"
+            value={roomCount}
+            onChange={(value) => setCustomValue("roomCount", value)}
+          />
+          <Counter
+            title="Bathrooms"
+            subtitle="How many bathrooms does your place have?"
+            value={bathroomCount}
+            onChange={(value) => setCustomValue("bathroomCount", value)}
+          />
+        </div>
       </div>
     ),
     [STEPS.IMAGES]: (
-      <div className="flex flex-col gap-8">
+      <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
         <Heading
-          title="Add a photo to your place"
-          subtitle="Show guest what your place looks like!"
+          title="Add photos of your place"
+          subtitle="Show guests what your place looks like!"
+          className="text-center"
         />
         <ImageUpload
           value={imageSrc}
@@ -206,35 +214,38 @@ const ListingModal = () => {
       </div>
     ),
     [STEPS.DESCRIPTION]: (
-      <div className="flex flex-col gap-8">
+      <div className="max-w-2xl mx-auto px-4 py-8 space-y-8">
         <Heading
           title="How would you describe your place?"
           subtitle="Short and sweet works best!"
+          className="text-center"
         />
-        <RegisterInput
-          id="title"
-          label="Title"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        <hr />
-        <RegisterInput
-          id="description"
-          label="Description"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
+        <div className="space-y-6">
+          <RegisterInput
+            id="title"
+            label="Title"
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+            required
+          />
+          <RegisterInput
+            id="description"
+            label="Description"
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+            required
+          />
+        </div>
       </div>
     ),
     [STEPS.PRICE]: (
-      <div className="flex flex-col gap-8">
+      <div className="max-w-xl mx-auto px-4 py-8 space-y-8">
         <Heading
-          title="Now, set the price"
+          title="Now, set your price"
           subtitle="How much do you want to charge per night?"
+          className="text-center"
         />
         <RegisterInput
           formatPrice

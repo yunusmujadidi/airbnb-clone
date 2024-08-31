@@ -11,6 +11,7 @@ interface RegisterInputProps {
   required?: boolean;
   register?: any;
   errors?: any;
+  className?: string;
 }
 
 const RegisterInput = ({
@@ -22,9 +23,10 @@ const RegisterInput = ({
   required = false,
   register,
   errors,
+  className,
 }: RegisterInputProps) => {
   return (
-    <div className="w-full relative">
+    <div className={cn("w-full relative ", className)}>
       {formatPrice && (
         <DollarSign
           size={24}
