@@ -27,7 +27,7 @@ export default async function RootLayout({
       <body className={cn(font.className, "h-full min-h-screen")}>
         <ToasterProvider />
         <Navbar currentUser={currentUser} />
-        <main>{children}</main>
+        <main className="pb-20 pt-28">{children}</main>
         <RegisterModal />
         <LoginModal />
         <ListingModal />
