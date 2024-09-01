@@ -16,6 +16,7 @@ interface ModalProps {
   disabled?: boolean;
   secondaryAction?: () => void;
   secondaryLabel?: string;
+  titleClassName?: string;
 }
 const Modal = ({
   isOpen = false,
@@ -28,6 +29,7 @@ const Modal = ({
   disabled,
   secondaryAction,
   secondaryLabel,
+  titleClassName,
 }: ModalProps) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -82,7 +84,9 @@ const Modal = ({
               >
                 <X />
               </button>
-              <div className="text-lg font-semibold">{title}</div>
+              <div className={(cn("text-lg font-semibold"), titleClassName)}>
+                {title}
+              </div>
             </div>
             {/* Body */}
             <div className="relative p-6 flex-auto">{body}</div>

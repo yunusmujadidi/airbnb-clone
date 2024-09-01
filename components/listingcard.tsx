@@ -59,6 +59,10 @@ const ListingCard = ({
     return `${startDate.toDateString()} - ${endDate.toDateString()}`;
   }, [reservation]);
 
+  const handleHeartClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+  }, []);
+
   return (
     <div
       className="col-span-1 cursor-pointer group"
@@ -72,7 +76,7 @@ const ListingCard = ({
             className="object-cover w-full h-full group-hover:scale-110 transition"
             fill
           />
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-3 right-3" onClick={handleHeartClick}>
             <HeartButton listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
