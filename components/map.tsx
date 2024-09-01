@@ -28,7 +28,6 @@ const Map = ({ center }: MapProps) => {
     <MapContainer
       center={center as LatLngExpression}
       zoom={4}
-      scrollWheelZoom={false}
       className="h-[35vh] rounded-lg"
     >
       <TileLayer

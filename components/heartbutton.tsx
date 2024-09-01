@@ -58,7 +58,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({
           "absolute -top-[2px] -right-[2px]",
           isFavorite
             ? "fill-rose-500 text-neutral-100"
-            : "fill-current text-neutral-500"
+            : "fill-neutral-500/50 text-white"
         )}
       />
     </div>

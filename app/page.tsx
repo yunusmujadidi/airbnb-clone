@@ -1,8 +1,8 @@
 import Container from "@/components/container";
 import EmptyState from "@/components/empty";
 import getListings from "@/lib/actions/getlistings";
-import ListingCard from "@/components/listingcard";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
+import ListingCard from "@/components/listing/listingcard";
 
 export default async function Home() {
   const currentUser = await getCurrentUser();

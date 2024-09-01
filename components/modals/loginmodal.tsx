@@ -46,8 +46,8 @@ const LoginModal = () => {
       if (result?.error) {
         toast.error(`Login failed: ${result.error}`);
       } else if (result?.ok) {
-        loginModal.onClose();
         router.refresh();
+        loginModal.onClose();
         toast.success("Logged in successfully");
       } else {
         toast.error("An unexpected error occurred");

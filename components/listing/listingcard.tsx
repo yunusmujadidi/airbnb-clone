@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
 import HeartButton from "@/components/heartbutton";
-import Button from "./button";
+import Button from "@/components/button";
 
 interface ListingCardProps {
   onAction?: (id: string) => void;
@@ -81,7 +81,7 @@ const ListingCard = ({
           </div>
         </div>
         <div className="font-semibold text-lg">
-          {location?.region}, {location?.label}
+          {location?.label}, {location?.region}
         </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}
