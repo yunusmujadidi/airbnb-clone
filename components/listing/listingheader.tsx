@@ -26,8 +26,9 @@ const ListingHeader = ({ listing, currentUser }: ListingHeaderProps) => {
           src={listing.imageSrc}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+          className="object-cover w-full h-full transition-transform duration-300 "
           alt={listing.title}
+          priority
         />
 
         <div className="absolute top-5 right-5">

@@ -55,7 +55,9 @@ const ListingClient = ({
 
   const SubmitReservation = async () => {
     if (!currentUser) {
-      return loginModal.onOpen();
+      loginModal.onOpen();
+      toast.error("You need to be logged in to make a reservation.");
+      return;
     }
     setIsLoading(true);
 
