@@ -75,6 +75,7 @@ const ListingCard = ({
             alt={data.title}
             className="object-cover w-full h-full group-hover:scale-110 transition"
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute top-3 right-3" onClick={handleHeartClick}>
             <HeartButton listingId={data.id} currentUser={currentUser} />

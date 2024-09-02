@@ -51,6 +51,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
         <div className="relative w-full h-[300px] rounded-lg overflow-hidden">
           <Image
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             style={{ objectFit: "cover" }}
             src={value}
             alt="Uploaded image"

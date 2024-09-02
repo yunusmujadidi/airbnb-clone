@@ -12,6 +12,7 @@ const Logo = () => {
       src="/logo.png"
       width={100}
       height={100}
+      style={{ width: "auto", height: "auto" }}
       className="hidden md:block cursor-pointer"
       alt="logo"
     />
