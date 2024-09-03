@@ -38,3 +38,25 @@ export async function toggleFavorite(
     await prisma.$disconnect();
   }
 }
+
+export async function getFavoriteListings(userId: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { favoriteIds: true },
+    });
+
+    if (!user) throw new Error("User not found");
+
+    const favoriteListings = await prisma.listing.findMany({
+      where: {
+        id: { in: user.favoriteIds },
+      },
+    });
+
+    return favoriteListings;
+  } catch (error) {
+    console.error("Error getting favorite listings:", error);
+    return [];
+  }
+}
