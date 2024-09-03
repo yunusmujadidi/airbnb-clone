@@ -66,7 +66,7 @@ const ListingInfo = ({ listing, category }: ListingInfoProps) => {
 
       <hr className="border-gray-200" />
 
-      <div className="text-lg font-light text-gray-600">
+      <div className="text-lg font-light text-gray-600 mb-4 break-words">
         {listing.description}
       </div>
 

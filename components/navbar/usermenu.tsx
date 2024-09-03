@@ -10,6 +10,7 @@ import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
 import useListingModal from "@/app/hooks/useListingModal";
+import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -17,6 +18,7 @@ interface UserMenuProps {
 
 const UserMenu = ({ currentUser }: UserMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
@@ -77,7 +79,13 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
           <>
             {currentUser ? (
               <>
-                <MenuItem onClick={() => {}} label="My trips" />
+                <MenuItem
+                  onClick={() => {
+                    router.push("/trips");
+                    setIsOpen(false);
+                  }}
+                  label="My trips"
+                />
                 <MenuItem onClick={() => {}} label="My favorites" />
                 <MenuItem onClick={() => {}} label="My reservation" />
                 <MenuItem onClick={() => {}} label="My properties" />

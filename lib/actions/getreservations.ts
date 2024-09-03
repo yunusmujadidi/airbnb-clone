@@ -2,10 +2,11 @@ import prisma from "../prisma";
 
 interface IParams {
   listingId?: string;
+  userId?: string;
 }
 
 export async function getReservations(params: IParams) {
-  const { listingId } = params;
+  const { listingId, userId } = params;
 
   const query: any = {};
 
@@ -13,8 +14,12 @@ export async function getReservations(params: IParams) {
     query.listingId = listingId;
   }
 
+  if (userId) {
+    query.userId = userId;
+  }
+
   try {
-    const reservation = await prisma.reservation.findMany({
+    const reservations = await prisma.reservation.findMany({
       where: query,
       include: {
         listing: true,
@@ -24,7 +29,7 @@ export async function getReservations(params: IParams) {
       },
     });
 
-    return reservation;
+    return reservations;
   } catch (error) {
     throw new Error(error as string);
   }
