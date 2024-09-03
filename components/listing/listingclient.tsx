@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Container from "../container";
 import ListingHeader from "./listingheader";
 import ListingInfo from "./listinginfo";
-import { categories } from "../category";
+import { categories } from "@/lib/const/categories";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";

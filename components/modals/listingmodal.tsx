@@ -7,7 +7,7 @@ import Modal from "./modal";
 import toast from "react-hot-toast";
 import useListingModal from "@/app/hooks/useListingModal";
 import Heading from "../heading";
-import { categories } from "../category";
+import { categories } from "@/lib/const/categories";
 import CategoryInput from "../categoryinput";
 import CountrySelect from "../countryselect";
 import dynamic from "next/dynamic";
