@@ -1,7 +1,7 @@
 import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import { getReservations } from "@/lib/actions/getreservations";
-import ReservationClient from "./reservationclient";
+import TripsClient from "./tripsclient";
 
 const TripPage = async () => {
   const currentUser = await getCurrentUser();
@@ -19,9 +19,7 @@ const TripPage = async () => {
     );
   }
 
-  return (
-    <ReservationClient currentUser={currentUser} reservations={reservation} />
-  );
+  return <TripsClient currentUser={currentUser} reservations={reservation} />;
 };
 
 export default TripPage;

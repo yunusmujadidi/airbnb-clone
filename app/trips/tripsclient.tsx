@@ -17,10 +17,7 @@ interface ReservationClientProps {
   reservations: ReservationWithListing[];
 }
 
-const ReservationClient = ({
-  currentUser,
-  reservations,
-}: ReservationClientProps) => {
+const TripsClient = ({ currentUser, reservations }: ReservationClientProps) => {
   const [deleteId, setDeleteId] = useState("");
   const router = useRouter();
 
@@ -68,4 +65,4 @@ const ReservationClient = ({
   );
 };
 
-export default ReservationClient;
+export default TripsClient;

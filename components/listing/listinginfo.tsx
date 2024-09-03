@@ -73,7 +73,7 @@ const ListingInfo = ({ listing, category }: ListingInfoProps) => {
       <hr className="border-gray-200" />
 
       <div className="h-64 rounded-lg overflow-hidden">
-        <Map center={coordinates} />
+        <Map center={coordinates || [-6.9667, 110.4167]} />
       </div>
     </div>
   );

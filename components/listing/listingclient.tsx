@@ -1,6 +1,6 @@
 "use client";
 import { Listing, Reservation, User } from "@prisma/client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Container from "../container";
 import ListingHeader from "./listingheader";
 import ListingInfo from "./listinginfo";
@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import ListingReservation from "./listingreservation";
 import { Range } from "react-date-range";
 import axios from "axios";
-import { createReservation } from "@/lib/actions/reservationaction";
+import { createReservation } from "@/lib/actions/reservationactions";
 
 interface ListingProps {
   currentUser?: User | null;
@@ -54,7 +54,7 @@ const ListingClient = ({
     return dates;
   }, [reservation]);
 
-  const SubmitReservation = async () => {
+  const SubmitReservation = useCallback(async () => {
     if (!currentUser) {
       loginModal.onOpen();
       toast.error("You need to be logged in to make a reservation.");
@@ -63,52 +63,28 @@ const ListingClient = ({
     setIsLoading(true);
 
     try {
-      const response = await axios.post("/api/reservations", {
-        endDate: dateRange.endDate,
-        startDate: dateRange.startDate,
+      const response = await createReservation({
+        endDate: dateRange.endDate as Date,
+        startDate: dateRange.startDate as Date,
         totalPrice: totalPrice,
         listingId: listing.id,
+        userId: currentUser.id,
       });
-
-      if (response.data) {
+      if (response) {
         toast.success("Reservation created successfully");
         router.push("/trips");
       } else {
-        throw new Error("Failed to create reservation");
+        toast.error("Something is wrong");
       }
     } catch (error) {
-      console.error("Error creating a reservation:", error);
-      toast.error("Failed to create reservation");
+      console.log("Error creating a reservation:", error);
+      toast.error("Something is wrong");
     } finally {
       setIsLoading(false);
       setDateRange(initialStartDate);
       router.refresh();
     }
-  };
-
-  //   try {
-  //     const response = await createReservation({
-  //       endDate: dateRange.endDate as Date,
-  //       startDate: dateRange.startDate as Date,
-  //       totalPrice: totalPrice,
-  //       listingId: listing.id,
-  //       userId: currentUser.id,
-  //     });
-  //     if (response) {
-  //       toast.success("Reservation created successfully");
-  //       router.push("/trips");
-  //     } else {
-  //       toast.error("Something is wrong");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error creating a reservation:", error);
-  //     toast.error("Something is wrong");
-  //   } finally {
-  //     setIsLoading(false);
-  //     setDateRange(initialStartDate);
-  //     router.refresh();
-  //   }
-  // };
+  }, [currentUser, dateRange, listing.id, totalPrice, router, loginModal]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
