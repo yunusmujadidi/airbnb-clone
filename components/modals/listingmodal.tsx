@@ -14,7 +14,7 @@ import dynamic from "next/dynamic";
 import Counter from "../counter";
 import ImageUpload from "../imageupload";
 import RegisterInput from "./registerinput";
-import { submitListing } from "@/lib/actions/registeraction";
+import { submitListing } from "@/lib/actions/listingactions";
 import { useRouter } from "next/navigation";
 
 export const listingSchema = z.object({

@@ -1,9 +1,9 @@
 import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
-import { getListingById } from "@/lib/actions/getlistings";
+import { getListingById } from "@/lib/actions/listingactions";
 import React from "react";
 import ListingClient from "@/components/listing/listingclient";
-import { getReservations } from "@/lib/actions/getreservations";
+import { getReservations } from "@/lib/actions/reservationactions";
 
 const ListingPage = async ({ params }: { params: { listingId: string } }) => {
   const { listingId } = params;

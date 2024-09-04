@@ -1,6 +1,6 @@
 import Container from "@/components/container";
 import EmptyState from "@/components/empty";
-import getListings from "@/lib/actions/getlistings";
+import getListings from "@/lib/actions/listingactions";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import ListingCard from "@/components/listing/listingcard";
 import { getReservations } from "@/lib/actions/getreservations";

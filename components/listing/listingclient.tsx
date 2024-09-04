@@ -77,7 +77,7 @@ const ListingClient = ({
         toast.error("Something is wrong");
       }
     } catch (error) {
-      console.log("Error creating a reservation:", error);
+      console.error("Error creating a reservation:", error);
       toast.error("Something is wrong");
     } finally {
       setIsLoading(false);
