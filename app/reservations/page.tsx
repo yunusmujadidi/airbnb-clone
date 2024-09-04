@@ -1,6 +1,6 @@
 import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
-import { getReservations } from "@/lib/actions/getreservations";
+import { getReservations } from "@/lib/actions/reservationactions";
 
 import React from "react";
 import ReservationClient from "./reservationclient";

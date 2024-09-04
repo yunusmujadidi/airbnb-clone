@@ -3,7 +3,6 @@ import EmptyState from "@/components/empty";
 import getListings from "@/lib/actions/listingactions";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import ListingCard from "@/components/listing/listingcard";
-import { getReservations } from "@/lib/actions/getreservations";
 
 export default async function Home() {
   const currentUser = await getCurrentUser();
