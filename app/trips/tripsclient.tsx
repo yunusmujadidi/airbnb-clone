@@ -4,7 +4,7 @@ import Heading from "@/components/heading";
 import ListingCard from "@/components/listing/listingcard";
 import { Reservation, User, Listing } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { deleteReservation } from "@/lib/actions/reservationactions";
 
@@ -21,25 +21,22 @@ const TripsClient = ({ currentUser, reservations }: ReservationClientProps) => {
   const [deleteId, setDeleteId] = useState("");
   const router = useRouter();
 
-  const onDelete = useCallback(
-    async (id: string) => {
-      setDeleteId(id);
-      try {
-        const result = await deleteReservation(id);
-        if (result.success) {
-          toast.success("Reservation Cancelled");
-          router.refresh();
-        } else {
-          throw new Error(result.error);
-        }
-      } catch (error) {
-        toast.error("Error cancelling reservation");
-      } finally {
-        setDeleteId("");
+  const onDelete = async (id: string) => {
+    setDeleteId(id);
+    try {
+      const result = await deleteReservation(id);
+      if (result.success) {
+        toast.success("Reservation Cancelled");
+        router.refresh();
+      } else {
+        throw new Error(result.error);
       }
-    },
-    [router]
-  );
+    } catch (error) {
+      toast.error("Error cancelling reservation");
+    } finally {
+      setDeleteId("");
+    }
+  };
 
   return (
     <Container>

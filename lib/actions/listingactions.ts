@@ -1,7 +1,9 @@
+"use server";
 import { z } from "zod";
 import prisma from "../prisma";
 import { getCurrentUser } from "./getcurrentuser";
 import { listingSchema } from "@/components/modals/listingmodal";
+import { User } from "@prisma/client";
 
 export default async function getListings() {
   try {
@@ -82,5 +84,58 @@ export const submitListing = async (values: z.infer<typeof listingSchema>) => {
   } catch (error) {
     console.log("Error creating listing: ", error);
     throw new Error("An error occurred. Please try again later.");
+  }
+};
+
+export const deleteListings = async (listingId: string, currentUser: User) => {
+  // const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    console.log("Unauthorized: No current user");
+    throw new Error("Unauthorized");
+  }
+  try {
+    const listing = await prisma.listing.findUnique({
+      where: {
+        id: listingId,
+      },
+    });
+    if (!listing) {
+      console.log(`Listing not found: ${listingId}`);
+      throw new Error("Listing not found");
+    }
+    if (listing.userId !== currentUser.id) {
+      console.log(
+        `User ${currentUser.id} doesn't have permission to delete listing ${listingId}`
+      );
+      throw new Error("You don't have permission to delete this listing");
+    }
+
+    await prisma.listing.delete({
+      where: {
+        id: listingId,
+      },
+    });
+    console.log(`Listing ${listingId} deleted successfully`);
+    return { success: true };
+  } catch (error: any) {
+    console.log(`Error deleting listing: ${error.message}`);
+    throw new Error(`Error deleting listing: ${error.message}`);
+  }
+};
+
+export const getListingByUser = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    throw new Error("Unauthorized");
+  }
+  try {
+    const listings = await prisma.listing.findMany({
+      where: {
+        userId: currentUser.id,
+      },
+    });
+    return listings;
+  } catch (error) {
+    throw new Error(error as string);
   }
 };
