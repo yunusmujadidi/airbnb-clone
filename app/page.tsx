@@ -4,6 +4,7 @@ import EmptyState from "@/components/empty";
 import getListings, { IListingParams } from "@/lib/actions/listingactions";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import ListingCard from "@/components/listing/listingcard";
+export const dynamic = "force-dynamic";
 
 interface HomeProps {
   searchParams: IListingParams;
@@ -19,7 +20,7 @@ const HomeContent = async ({ searchParams }: HomeProps) => {
   return (
     <Container>
       <div className="pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
-        {listing.map((listing) => (
+        {listing.map((listing: any) => (
           <ListingCard
             key={listing.id}
             data={listing}

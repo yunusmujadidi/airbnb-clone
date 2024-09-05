@@ -3,6 +3,7 @@ import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import FavoritesClient from "./favoritesclient";
 import { getfavoriteListing } from "@/lib/actions/listingactions";
+export const dynamic = "force-dynamic";
 
 const FavoritesContent = async () => {
   const currentUser = await getCurrentUser();

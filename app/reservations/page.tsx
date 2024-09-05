@@ -3,6 +3,7 @@ import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import { getReservations } from "@/lib/actions/reservationactions";
 import ReservationClient from "./reservationclient";
+export const dynamic = "force-dynamic";
 
 const ReservationContent = async () => {
   const currentUser = await getCurrentUser();

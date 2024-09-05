@@ -4,6 +4,7 @@ import { getListingById } from "@/lib/actions/listingactions";
 import React from "react";
 import ListingClient from "@/components/listing/listingclient";
 import { getReservations } from "@/lib/actions/reservationactions";
+export const dynamic = "force-dynamic";
 
 const ListingPage = async ({ params }: { params: { listingId: string } }) => {
   const { listingId } = params;

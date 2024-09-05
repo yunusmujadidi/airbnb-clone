@@ -9,6 +9,7 @@ import "./globals.css";
 import ListingModal from "@/components/modals/listingmodal";
 import SearchModal from "@/components/modals/searchmodal";
 import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -29,7 +30,9 @@ export default async function RootLayout({
         <Toaster />
         <Navbar currentUser={currentUser} />
 
-        <main className="pb-20 pt-36">{children}</main>
+        <main className="pb-20 pt-36">
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        </main>
         <RegisterModal />
         <LoginModal />
         <ListingModal />

@@ -3,6 +3,7 @@ import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import { getListingByUser } from "@/lib/actions/listingactions";
 import PropertiesClient from "./propertiesclient";
+export const dynamic = "force-dynamic";
 
 const PropertiesContent = async () => {
   const currentUser = await getCurrentUser();
