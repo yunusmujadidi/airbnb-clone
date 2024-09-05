@@ -38,7 +38,7 @@ enum STEPS {
   PRICE = 5,
 }
 
-const semarangCenter: [number, number] = [-6.9667, 110.4167];
+const semarangCenter = [-6.9667, 110.4167];
 
 const ListingModal = () => {
   const [isLoading, setIsLoading] = useState(false);

@@ -1,12 +1,16 @@
 import Container from "@/components/container";
 import EmptyState from "@/components/empty";
-import getListings from "@/lib/actions/listingactions";
+import getListings, { IListingParams } from "@/lib/actions/listingactions";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import ListingCard from "@/components/listing/listingcard";
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: IListingParams;
+}
+
+const Home = async ({ searchParams }: HomeProps) => {
   const currentUser = await getCurrentUser();
-  const listing = await getListings();
+  const listing = await getListings(searchParams);
 
   if (listing.length === 0) {
     return <EmptyState showReset />;
@@ -24,4 +28,6 @@ export default async function Home() {
       </div>
     </Container>
   );
-}
+};
+
+export default Home;
