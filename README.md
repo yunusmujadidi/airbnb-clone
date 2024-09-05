@@ -29,12 +29,12 @@ This project is an Airbnb clone built with Next.js, TypeScript, and Prisma. It f
 1. Clone the repository
 2. Install dependencies:
    ```
-   npm install
+   pnpm install
    ```
 3. Set up your environment variables in a `.env` file (see `.env.example` for required variables)
 4. Run the development server:
    ```
-   npm run dev
+   pnpm dev
    ```
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
@@ -42,18 +42,20 @@ This project is an Airbnb clone built with Next.js, TypeScript, and Prisma. It f
 
 - `app/`: Next.js app router and page components
 - `components/`: Reusable React components
-- `lib/`: Utility functions and custom hooks
+- `lib/`: Utility functions, custom hooks, and server actions
 - `prisma/`: Prisma schema and database configuration
 
 ## Key Components
 
 - User Authentication (auth.ts)
 - Listing Modal (components/modals/listingmodal.tsx)
-- Reservation Client (app/trips/reservationclient.tsx)
+- Listing Client (components/listing/listingclient.tsx)
+- Reservation Client (app/reservations/reservationclient.tsx)
+- Trips Client (app/trips/tripsclient.tsx)
 
-## API Routes
+## Server Actions
 
-- Reservations (app/api/reservations/route.ts)
+The project utilizes React Server Actions for server-side operations. Server actions are defined in the `lib/actions` directory and are used to perform tasks such as creating reservations, toggling favorites, and fetching data from the database.
 
 ## Database Schema
 

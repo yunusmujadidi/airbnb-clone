@@ -10,9 +10,11 @@ const ListingPage = async ({ params }: { params: { listingId: string } }) => {
   const listing = await getListingById({ listingId });
   const currentUser = await getCurrentUser();
   const reservation = await getReservations(params);
+
   if (!listing) {
     return <EmptyState />;
   }
+
   return (
     <ListingClient
       listing={listing}

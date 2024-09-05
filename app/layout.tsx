@@ -9,6 +9,7 @@ import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import "./globals.css";
 import ListingModal from "@/components/modals/listingmodal";
 import SearchModal from "@/components/modals/searchmodal";
+import { Suspense } from "react";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -28,7 +29,15 @@ export default async function RootLayout({
       <body className={cn(font.className, "h-full min-h-screen")}>
         <ToasterProvider />
         <Navbar currentUser={currentUser} />
-        <main className="pb-20 pt-36">{children}</main>
+        <Suspense
+          fallback={
+            <div className="h-[calc(100vh-100px)] flex items-center justify-center">
+              <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+            </div>
+          }
+        >
+          <main className="pb-20 pt-36">{children}</main>
+        </Suspense>
         <RegisterModal />
         <LoginModal />
         <ListingModal />

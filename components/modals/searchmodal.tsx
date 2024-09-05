@@ -173,7 +173,7 @@ const SearchModal = () => {
 
   return (
     <Modal
-      onClose={searchModal.onOpen}
+      onClose={searchModal.onClose}
       isOpen={searchModal.isOpen}
       onSubmit={onSubmit}
       title="Filters"
