@@ -3,7 +3,7 @@ import { Nunito } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/navbar/navbar";
 import RegisterModal from "@/components/modals/registermodal";
-import ToasterProvider from "./providers/toasterprovider";
+import ToasterProvider from "@/app/providers/toasterprovider";
 import LoginModal from "@/components/modals/loginmodal";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import "./globals.css";
