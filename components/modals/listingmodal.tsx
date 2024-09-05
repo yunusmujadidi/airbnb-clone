@@ -165,7 +165,7 @@ const ListingModal = () => {
           onChange={(value) => setCustomValue("location", value)}
         />
         <div className="mt-6 h-[350px] w-full rounded-lg overflow-hidden">
-          <Map center={location?.latling || semarangCenter} />
+          <Map center={location?.latlng || semarangCenter} />
         </div>
       </div>
     ),
