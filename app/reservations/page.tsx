@@ -1,11 +1,10 @@
+import { Suspense } from "react";
 import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import { getReservations } from "@/lib/actions/reservationactions";
-
-import React from "react";
 import ReservationClient from "./reservationclient";
 
-const ReservationPage = async () => {
+const ReservationContent = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
@@ -24,6 +23,14 @@ const ReservationPage = async () => {
   }
   return (
     <ReservationClient reservation={reservation} currentUser={currentUser} />
+  );
+};
+
+const ReservationPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReservationContent />
+    </Suspense>
   );
 };
 

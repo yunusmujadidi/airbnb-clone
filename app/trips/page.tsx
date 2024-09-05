@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import { getReservations } from "@/lib/actions/reservationactions";
 import TripsClient from "./tripsclient";
 
-const TripPage = async () => {
+const TripsContent = async () => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return <EmptyState title="Unauthorized" subtitle="Please login first" />;
@@ -20,6 +21,14 @@ const TripPage = async () => {
   }
 
   return <TripsClient currentUser={currentUser} reservations={reservation} />;
+};
+
+const TripPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TripsContent />
+    </Suspense>
+  );
 };
 
 export default TripPage;

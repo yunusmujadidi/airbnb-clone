@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Container from "@/components/container";
 import EmptyState from "@/components/empty";
 import getListings, { IListingParams } from "@/lib/actions/listingactions";
@@ -8,7 +9,7 @@ interface HomeProps {
   searchParams: IListingParams;
 }
 
-const Home = async ({ searchParams }: HomeProps) => {
+const HomeContent = async ({ searchParams }: HomeProps) => {
   const currentUser = await getCurrentUser();
   const listing = await getListings(searchParams);
 
@@ -27,6 +28,14 @@ const Home = async ({ searchParams }: HomeProps) => {
         ))}
       </div>
     </Container>
+  );
+};
+
+const Home = (props: HomeProps) => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent {...props} />
+    </Suspense>
   );
 };
 

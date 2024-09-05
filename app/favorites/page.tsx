@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import EmptyState from "@/components/empty";
 import { getCurrentUser } from "@/lib/actions/getcurrentuser";
 import FavoritesClient from "./favoritesclient";
 import { getfavoriteListing } from "@/lib/actions/listingactions";
 
-const FavoritesPage = async () => {
+const FavoritesContent = async () => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return <EmptyState title="Unauthorized" subtitle="Please login first" />;
@@ -22,6 +23,14 @@ const FavoritesPage = async () => {
 
   return (
     <FavoritesClient listing={favoritelisting} currentUser={currentUser} />
+  );
+};
+
+const FavoritesPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FavoritesContent />
+    </Suspense>
   );
 };
 
