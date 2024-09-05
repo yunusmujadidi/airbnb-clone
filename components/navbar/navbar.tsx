@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Container from "../container";
 import Logo from "./logo";
 import Search from "./search";
@@ -28,9 +28,8 @@ const NavbarContent = ({ currentUser }: NavbarProps) => (
 const Navbar = async ({ currentUser }: NavbarProps) => {
   return (
     <div className="fixed z-10 w-full bg-white shadow-sm transition-all duration-300 ease-in-out min-h-[100px]">
-      <Suspense fallback={<div className="min-h-[100px]" />}>
-        <NavbarContent currentUser={currentUser} />
-      </Suspense>
+      <div className="min-h-[100px]" />
+      <NavbarContent currentUser={currentUser} />
     </div>
   );
 };

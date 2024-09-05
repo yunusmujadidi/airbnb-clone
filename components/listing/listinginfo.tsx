@@ -28,7 +28,7 @@ interface ListingInfoProps {
 
 const ListingInfo = ({ listing, category }: ListingInfoProps) => {
   const { getByValue } = useCountries();
-  const coordinates = getByValue(listing.locationValue)?.latling;
+  const coordinates = getByValue(listing.locationValue)?.latlng;
 
   return (
     <div className="col-span-4 flex flex-col gap-8 p-6 bg-white rounded-lg shadow-lg">
