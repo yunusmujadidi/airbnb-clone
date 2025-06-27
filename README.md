@@ -1,4 +1,6 @@
 # Airbnb Clone
+⚠️ Disclaimer: This is a personal portfolio project built for educational purposes.  
+It is a clone of Airbnb's frontend UI and features, and is **not associated with Airbnb Inc.**  
 
 This project is an Airbnb clone built with Next.js, TypeScript, and Prisma. It features user authentication, property listings, reservations, a map interface, and a filter search functionality using URL parameters.
 
