@@ -60,7 +60,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
           onClick={handleListingModal}
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
         >
-          Airbnb your home
+          List your property
         </div>
 
         <div
@@ -107,7 +107,10 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
                   }}
                   label="My properties"
                 />
-                <MenuItem onClick={handleListingModal} label="Airbnb my home" />
+                <MenuItem
+                  onClick={handleListingModal}
+                  label="List my property"
+                />
                 <hr />
                 <MenuItem onClick={handleLogout} label="Logout" />
               </>

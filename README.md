@@ -1,8 +1,8 @@
-# Airbnb Clone
-⚠️ Disclaimer: This is a personal portfolio project built for educational purposes.  
-It is a clone of Airbnb's frontend UI and features, and is **not associated with Airbnb Inc.**  
+# RentSpace - Property Rental Platform
 
-This project is an Airbnb clone built with Next.js, TypeScript, and Prisma. It features user authentication, property listings, reservations, a map interface, and a filter search functionality using URL parameters.
+⚠️ Disclaimer: This is a personal portfolio project built for educational purposes.
+
+This project is a property rental platform built with Next.js, TypeScript, and Prisma. It features user authentication, property listings, reservations, a map interface, and a filter search functionality using URL parameters.
 
 ## Features
 
@@ -35,8 +35,8 @@ This project is an Airbnb clone built with Next.js, TypeScript, and Prisma. It f
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yunusmujadidi/airbnb
-   cd airbnb
+   git clone https://github.com/yunusmujadidi/rentspace
+   cd rentspace
    ```
 
 2. Install dependencies:
